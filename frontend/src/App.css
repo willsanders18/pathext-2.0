@@ -1,42 +1,56 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url('index.css');
+
+/* Reset basic spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between; /* Pushes Logo left, Nav right */
+  align-items: center; /* Vertically centers items */
+  padding: 1rem 2rem;
+  background-color: var(--accent-shadow); /* Match page bg */
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  /* Add specific styling for "PathExt 2.0" here */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar ul {
+  display: flex; /* Makes list items horizontal */
+  list-style: none; /* Removes bullet points */
+  gap: 20px; /* Space between links */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.navbar a {
+  text-decoration: none;
+  color: var(--accent-teal); 
+  font-family: sans-serif;  /* White Background */
+  
+  padding: 10px 20px;
+  border-radius: 5px;               
+  
+  /* This makes the change smooth (0.3 seconds) */
+  transition: all 0.3s ease;
 }
 
-.card {
-  padding: 2em;
+.navbar a:hover {
+  color: #FFFFFF;                       /* Text becomes White */
+  
 }
 
-.read-the-docs {
-  color: #888;
+.description {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sentence {
+  font-size: 30px;
 }
