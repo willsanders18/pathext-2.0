@@ -1,5 +1,9 @@
 @import url('index.css');
 
+html {
+  font-family: 'Courier New', Courier, monospace;
+}
+
 /* Reset basic spacing */
 * {
   margin: 0;
@@ -12,14 +16,13 @@
   justify-content: space-between; /* Pushes Logo left, Nav right */
   align-items: center; /* Vertically centers items */
   padding: 1rem 2rem;
-  background-color: var(--accent-shadow); /* Match page bg */
+  background-color: white; /* Match page bg */
 }
 
-.logo {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: white;
-  /* Add specific styling for "PathExt 2.0" here */
+.logo-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 .navbar ul {
@@ -30,18 +33,17 @@
 
 .navbar a {
   text-decoration: none;
-  color: var(--accent-teal); 
-  font-family: sans-serif;  /* White Background */
+  color: var(--accent-shadow); 
+  font-family: sans-serif;  
   
   padding: 10px 20px;
   border-radius: 5px;               
   
-  /* This makes the change smooth (0.3 seconds) */
   transition: all 0.3s ease;
 }
 
 .navbar a:hover {
-  color: #FFFFFF;                       /* Text becomes White */
+  color: var(--accent-teal);                     
   
 }
 
@@ -49,8 +51,52 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 12rem;
+  padding-bottom: 5rem;
 }
 
 .sentence {
-  font-size: 30px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hiw-btn {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  
+  /* Colors */
+  background-color: var(--bg-main);   /* White Background */
+  color: var(--accent-teal);          /* Teal Text */
+  border: 1px solid var(--accent-teal); /* Thin Teal Border */
+  
+  /* The "3D" Hard Shadow */
+  /* Format: horizontal-offset vertical-offset blur-radius color */
+  box-shadow: 4px 4px 0px var(--accent-shadow); 
+  
+  /* Spacing */
+  padding: 12px 24px;
+  border-radius: 6px; /* Slightly rounded corners */
+  display: inline-block;
+  
+  /* Smooth animation for the click effect */
+  transition: all 0.1s ease-in-out;
+}
+
+.hiw-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px var(--accent-shadow);
+}
+
+.hiw-btn:active {
+  transform: translate(3px, 3px); /* Moves button down/right */
+  box-shadow: 1px 1px 0px var(--accent-shadow); /* Shrinks shadow */
 }
