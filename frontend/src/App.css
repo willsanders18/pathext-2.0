@@ -100,3 +100,27 @@ html {
   transform: translate(3px, 3px); /* Moves button down/right */
   box-shadow: 1px 1px 0px var(--accent-shadow); /* Shrinks shadow */
 }
+
+.about-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
+.run-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
+
+.hiw-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+}
