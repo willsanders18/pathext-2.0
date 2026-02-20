@@ -1,34 +1,65 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import logo from './assets/logo.png'
 import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Run from './Run/Run.jsx'
+import About from './About/About.jsx'
+import HowItWorks from './HowItWorks/HowItWorks'
+import Output from './Output/Output.jsx'
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
+const Home = () => {
+  const navigate = useNavigate();
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <html>
+      <header class="main-header">
+        <div class="logo">
+          <img src={logo} alt="PathExt 2.0" class="logo-img" width="150" height="75"/>
+        </div>
+        <nav class="navbar">
+          <ul>
+            <li>
+              <a href="/">HOME</a>
+            </li>
+            <li>
+              <a href="/about">ABOUT</a>
+            </li>
+            <li>
+              <a href="/run">RUN</a>
+            </li>
+            <li>
+              <a href="/howitworks">HOW IT WORKS</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="description">
+        <p class="sentence">The smartest way to manage your data</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      <div class="btn-container">
+        <button class="hiw-btn" onClick={() => navigate('/howitworks')}>HOW IT WORKS</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+
+    </html>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path='/' element={<Home />}/>
+        <Route path='/about' element={<About />}/>
+        <Route path='/run' element={<Run />}/>
+        <Route path='/howitworks' element={<HowItWorks />}/>
+        <Route path='/output' element={<Output />}/>
+      </Routes>
+    </Router>
+    
   )
 }
 
