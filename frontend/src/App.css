@@ -101,30 +101,6 @@ html {
   box-shadow: 1px 1px 0px var(--accent-shadow); /* Shrinks shadow */
 }
 
-.about-tab {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10rem;
-  padding-bottom: 10rem;
-}
-
-.about-description {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-  padding-left: 5rem;
-  padding-right: 5rem;
-  line-height: 1.5;
-}
-
-.run-tab {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10rem;
-  padding-bottom: 10rem;
-}
 
 .hiw-tab {
   display: flex;
