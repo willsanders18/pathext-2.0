@@ -110,3 +110,70 @@ html {
   padding-top: 10rem;
   padding-bottom: 10rem;
 }
+
+.run-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 540px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"] {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px dashed #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #555;
+  background: #fafafa;
+  transition: background 0.2s;
+}
+
+.file-upload-label:hover {
+  background: #f0f0f0;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 0.8rem;
+}
+
+.submit-btn {
+  margin-top: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.2s;
+}
+
+.submit-btn:hover {
+  background: #1a252f;
+}
