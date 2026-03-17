@@ -92,7 +92,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10rem;
+  padding-top: 5rem;
   padding-bottom: 10rem;
 }
 
@@ -179,4 +179,18 @@ html {
 
 .submit-btn:hover {
   background: #1a252f;
+}
+
+/* Title Styling */
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: bold;
 }

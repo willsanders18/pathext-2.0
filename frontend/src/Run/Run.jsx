@@ -33,6 +33,10 @@ function Run() {
         </nav>
       </header>
 
+      <div className="title-container">
+        <p className='title'>Run PathExt</p>
+      </div>
+
       <div className="run-tab" id="run">
         <form className="run-form" onSubmit={handleSubmit(onSubmit)}>
 
@@ -43,7 +47,7 @@ function Run() {
 
               {/* Name */}
               <div className="form-group">
-                <label>Name</label>
+                <label>*Name</label>
                 <input
                   placeholder="Your name"
                   {...register("name", { required: "Name is required" })}
@@ -53,7 +57,7 @@ function Run() {
 
               {/* Name of Perturbation */}
               <div className="form-group">
-                <label>Name of Perturbation</label>
+                <label>*Name of Perturbation</label>
                 <input
                   placeholder="e.g. Drug treatment"
                   {...register("perturbationName", { required: "Perturbation name is required" })}
@@ -63,7 +67,7 @@ function Run() {
 
               {/* Name of Control Sample */}
               <div className="form-group">
-                <label>Name of Control Sample</label>
+                <label>*Name of Control Sample</label>
                 <input
                   placeholder="e.g. DMSO"
                   {...register("controlSampleName", { required: "Control sample name is required" })}
@@ -73,7 +77,7 @@ function Run() {
 
               {/* Q-Score Cutoff */}
               <div className="form-group">
-                <label>Q-Score Cutoff</label>
+                <label>*Q-Score Cutoff</label>
                 <input
                   type="number"
                   step="0.1"
@@ -91,7 +95,7 @@ function Run() {
 
               {/* Data File 1 */}
               <div className="form-group">
-                <label>Data File 1</label>
+                <label>*Data File 1</label>
                 <label className="file-upload-label">
                   <span>{file1Name ?? "Choose file…"}</span>
                   <input
@@ -121,7 +125,7 @@ function Run() {
 
               {/* Email */}
               <div className="form-group">
-                <label>Email</label>
+                <label>*Email</label>
                 <input
                   type="email"
                   placeholder="you@example.com"
@@ -135,7 +139,7 @@ function Run() {
 
               {/* Percentile Threshold */}
               <div className="form-group">
-                <label>Percentile Threshold</label>
+                <label>*Percentile Threshold</label>
                 <input
                   type="number"
                   step="0.01"
@@ -153,7 +157,7 @@ function Run() {
 
               {/* Path Length Threshold */}
               <div className="form-group">
-                <label>Path Length Threshold</label>
+                <label>*Path Length Threshold</label>
                 <input
                   type="number"
                   step="1"
@@ -169,7 +173,7 @@ function Run() {
 
               {/* Data File 2 */}
               <div className="form-group">
-                <label>Data File 2</label>
+                <label>*Data File 2</label>
                 <label className="file-upload-label">
                   <span>{file2Name ?? "Choose file…"}</span>
                   <input
