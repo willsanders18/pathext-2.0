@@ -4,7 +4,6 @@ html {
   font-family: 'Courier New', Courier, monospace;
 }
 
-/* Reset basic spacing */
 * {
   margin: 0;
   padding: 0;
@@ -13,10 +12,10 @@ html {
 
 .main-header {
   display: flex;
-  justify-content: space-between; /* Pushes Logo left, Nav right */
-  align-items: center; /* Vertically centers items */
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 2rem;
-  background-color: white; /* Match page bg */
+  background-color: white;
 }
 
 .logo-img {
@@ -26,25 +25,22 @@ html {
 }
 
 .navbar ul {
-  display: flex; /* Makes list items horizontal */
-  list-style: none; /* Removes bullet points */
-  gap: 20px; /* Space between links */
+  display: flex;
+  list-style: none;
+  gap: 20px;
 }
 
 .navbar a {
   text-decoration: none;
-  color: var(--accent-shadow); 
-  font-family: sans-serif;  
-  
+  color: var(--accent-shadow);
+  font-family: sans-serif;
   padding: 10px 20px;
-  border-radius: 5px;               
-  
+  border-radius: 5px;
   transition: all 0.3s ease;
 }
 
 .navbar a:hover {
-  color: var(--accent-teal);                     
-  
+  color: var(--accent-teal);
 }
 
 .description {
@@ -72,22 +68,13 @@ html {
   font-size: 1rem;
   letter-spacing: 1px;
   text-decoration: none;
-  
-  /* Colors */
-  background-color: var(--bg-main);   /* White Background */
-  color: var(--accent-teal);          /* Teal Text */
-  border: 1px solid var(--accent-teal); /* Thin Teal Border */
-  
-  /* The "3D" Hard Shadow */
-  /* Format: horizontal-offset vertical-offset blur-radius color */
-  box-shadow: 4px 4px 0px var(--accent-shadow); 
-  
-  /* Spacing */
+  background-color: var(--bg-main);
+  color: var(--accent-teal);
+  border: 1px solid var(--accent-teal);
+  box-shadow: 4px 4px 0px var(--accent-shadow);
   padding: 12px 24px;
-  border-radius: 6px; /* Slightly rounded corners */
+  border-radius: 6px;
   display: inline-block;
-  
-  /* Smooth animation for the click effect */
   transition: all 0.1s ease-in-out;
 }
 
@@ -97,16 +84,113 @@ html {
 }
 
 .hiw-btn:active {
-  transform: translate(3px, 3px); /* Moves button down/right */
-  box-shadow: 1px 1px 0px var(--accent-shadow); /* Shrinks shadow */
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px var(--accent-shadow);
 }
-
-
 
 .run-tab {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10rem;
+  padding-top: 5rem;
   padding-bottom: 10rem;
+}
+
+.run-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.form-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 3rem;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"] {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.file-upload-label {
+  display: inline-block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px dashed #aaa;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #555;
+  background: #fafafa;
+  transition: background 0.2s;
+}
+
+.file-upload-label:hover {
+  background: #f0f0f0;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 0.8rem;
+}
+
+.submit-row {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn {
+  padding: 0.65rem 2.5rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submit-btn:hover {
+  background: #1a252f;
+}
+
+/* Title Styling */
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10rem;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: bold;
 }

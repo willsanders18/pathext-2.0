@@ -12,7 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <html>
+    <>
       <header class="main-header">
         <div class="logo">
           <img src={logo} alt="PathExt 2.0" class="logo-img" width="150" height="75"/>
@@ -44,7 +44,7 @@ const Home = () => {
       </div>
 
 
-    </html>
+    </>
   )
 }
 
