@@ -1,66 +1,94 @@
+import { useState } from "react";
 import BasicTable from "./BasicTable";
 import "./Output.css";
 
 function Output() {
-  const data = [
+  const [data, setData] = useState([]);
+
+  const columns = [
     {
-      geneName: "TP53",
-      degreeCentrality: 0.8421,
-      betweennessCentrality: 0.3154,
-      rippleCentrality: 0.6728,
+      accessorKey: "geneName",
+      header: "Gene Name",
+      cell: (info) => info.getValue(),
     },
     {
-      geneName: "BRCA1",
-      degreeCentrality: 0.7612,
-      betweennessCentrality: 0.4289,
-      rippleCentrality: 0.5931,
+      accessorKey: "degreeCentrality",
+      header: "Degree Centrality",
+      cell: (info) => Number(info.getValue()).toFixed(4),
     },
     {
-      geneName: "EGFR",
-      degreeCentrality: 0.9147,
-      betweennessCentrality: 0.2876,
-      rippleCentrality: 0.7015,
+      accessorKey: "betweennessCentrality",
+      header: "Betweenness Centrality",
+      cell: (info) => Number(info.getValue()).toFixed(4),
     },
     {
-      geneName: "MYC",
-      degreeCentrality: 0.6893,
-      betweennessCentrality: 0.5122,
-      rippleCentrality: 0.6489,
-    },
-    {
-      geneName: "AKT1",
-      degreeCentrality: 0.8035,
-      betweennessCentrality: 0.3468,
-      rippleCentrality: 0.6257,
+      accessorKey: "rippleCentrality",
+      header: "Ripple Centrality",
+      cell: (info) => Number(info.getValue()).toFixed(4),
     },
   ];
 
-  const columns = [
-  {
-    accessorKey: "geneName",
-    header: "Gene Name",
-  },
-  {
-    accessorKey: "degreeCentrality",
-    header: "Degree Centrality",
-    cell: (info) => info.getValue().toFixed(4),
-  },
-  {
-    accessorKey: "betweennessCentrality",
-    header: "Betweenness Centrality",
-    cell: (info) => info.getValue().toFixed(4),
-  },
-  {
-    accessorKey: "rippleCentrality",
-    header: "Ripple Centrality",
-    cell: (info) => info.getValue().toFixed(4),
-  },
-];
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const text = e.target.result;
+      const parsedData = parseTSV(text);
+      setData(parsedData);
+    };
+
+    reader.readAsText(file);
+  };
+
+  const parseTSV = (text) => {
+  const lines = text
+    .trim()
+    .split("\n")
+    .map((line) => line.replace(/\r/g, ""));
+
+  if (lines.length < 2) return [];
+
+  const rawHeaders = lines[0].split("\t").map((h) => h.trim());
+
+  const headerMap = {
+    "Gene Name": "geneName",
+    "Degree Centrality": "degreeCentrality",
+    "Betweenness Centrality": "betweennessCentrality",
+    "Ripple Centrality": "rippleCentrality",
+    geneName: "geneName",
+    degreeCentrality: "degreeCentrality",
+    betweennessCentrality: "betweennessCentrality",
+    rippleCentrality: "rippleCentrality",
+  };
+
+  const headers = rawHeaders.map((header) => headerMap[header] || header);
+
+  return lines.slice(1).map((line) => {
+    const values = line.split("\t").map((v) => v.trim());
+
+    return {
+      [headers[0]]: values[0],
+      [headers[1]]: parseFloat(values[1]),
+      [headers[2]]: parseFloat(values[2]),
+      [headers[3]]: parseFloat(values[3]),
+    };
+  });
+};
 
   return (
     <div>
       <h1>Output</h1>
-      <BasicTable data={data} columns={columns} />
+
+      <input type="file" accept=".tsv" onChange={handleFileUpload} />
+
+      {data.length > 0 ? (
+        <BasicTable data={data} columns={columns} />
+      ) : (
+        <p>Please upload a TSV file to view results.</p>
+      )}
     </div>
   );
 }
