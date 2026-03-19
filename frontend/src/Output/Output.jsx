@@ -17,13 +17,13 @@ function Output() {
       cell: (info) => Number(info.getValue()).toFixed(4),
     },
     {
-      accessorKey: "closenessCentrality",
-      header: "Closeness Centrality",
+      accessorKey: "betweennessCentrality",
+      header: "Betweenness Centrality",
       cell: (info) => Number(info.getValue()).toFixed(4),
     },
     {
-      accessorKey: "betweennessCentrality",
-      header: "Betweenness Centrality",
+      accessorKey: "rippleCentrality",
+      header: "Ripple Centrality",
       cell: (info) => Number(info.getValue()).toFixed(4),
     },
   ];
@@ -56,17 +56,23 @@ function Output() {
 
     const headerMap = {
       node: "geneName",
+
       "degree centrality": "degreeCentrality",
-      "closeness centrality": "closenessCentrality",
       "betweenness centrality": "betweennessCentrality",
 
+      // KEY PART 👇
+      "closeness centrality": "rippleCentrality",
+      "ripple centrality": "rippleCentrality",
+
+      // fallback formats
       genename: "geneName",
       degreecentrality: "degreeCentrality",
-      closenesscentrality: "closenessCentrality",
       betweennesscentrality: "betweennessCentrality",
+      closenesscentrality: "rippleCentrality",
+      ripplecentrality: "rippleCentrality",
     };
 
-    const rawHeaders = lines[0].split("\t").map((header) => header.trim());
+    const rawHeaders = lines[0].split("\t").map((h) => h.trim());
 
     const headers = rawHeaders.map((header) => {
       const normalized = normalize(header);
@@ -74,14 +80,14 @@ function Output() {
     });
 
     return lines.slice(1).map((line) => {
-      const values = line.split("\t").map((value) => value.trim());
+      const values = line.split("\t").map((v) => v.trim());
       const row = {};
 
-      headers.forEach((header, index) => {
+      headers.forEach((header, i) => {
         if (header === "geneName") {
-          row[header] = values[index];
+          row[header] = values[i];
         } else {
-          row[header] = parseFloat(values[index]);
+          row[header] = parseFloat(values[i]);
         }
       });
 
