@@ -17,13 +17,13 @@ function Output() {
       cell: (info) => Number(info.getValue()).toFixed(4),
     },
     {
-      accessorKey: "betweennessCentrality",
-      header: "Betweenness Centrality",
+      accessorKey: "closenessCentrality",
+      header: "Closeness Centrality",
       cell: (info) => Number(info.getValue()).toFixed(4),
     },
     {
-      accessorKey: "rippleCentrality",
-      header: "Ripple Centrality",
+      accessorKey: "betweennessCentrality",
+      header: "Betweenness Centrality",
       cell: (info) => Number(info.getValue()).toFixed(4),
     },
   ];
@@ -37,6 +37,7 @@ function Output() {
     reader.onload = (e) => {
       const text = e.target.result;
       const parsedData = parseTSV(text);
+      console.log(parsedData);
       setData(parsedData);
     };
 
@@ -44,39 +45,49 @@ function Output() {
   };
 
   const parseTSV = (text) => {
-  const lines = text
-    .trim()
-    .split("\n")
-    .map((line) => line.replace(/\r/g, ""));
+    const lines = text
+      .trim()
+      .split("\n")
+      .map((line) => line.replace(/\r/g, ""));
 
-  if (lines.length < 2) return [];
+    if (lines.length < 2) return [];
 
-  const rawHeaders = lines[0].split("\t").map((h) => h.trim());
+    const normalize = (str) => str.toLowerCase().trim();
 
-  const headerMap = {
-    "Gene Name": "geneName",
-    "Degree Centrality": "degreeCentrality",
-    "Betweenness Centrality": "betweennessCentrality",
-    "Ripple Centrality": "rippleCentrality",
-    geneName: "geneName",
-    degreeCentrality: "degreeCentrality",
-    betweennessCentrality: "betweennessCentrality",
-    rippleCentrality: "rippleCentrality",
-  };
+    const headerMap = {
+      node: "geneName",
+      "degree centrality": "degreeCentrality",
+      "closeness centrality": "closenessCentrality",
+      "betweenness centrality": "betweennessCentrality",
 
-  const headers = rawHeaders.map((header) => headerMap[header] || header);
-
-  return lines.slice(1).map((line) => {
-    const values = line.split("\t").map((v) => v.trim());
-
-    return {
-      [headers[0]]: values[0],
-      [headers[1]]: parseFloat(values[1]),
-      [headers[2]]: parseFloat(values[2]),
-      [headers[3]]: parseFloat(values[3]),
+      genename: "geneName",
+      degreecentrality: "degreeCentrality",
+      closenesscentrality: "closenessCentrality",
+      betweennesscentrality: "betweennessCentrality",
     };
-  });
-};
+
+    const rawHeaders = lines[0].split("\t").map((header) => header.trim());
+
+    const headers = rawHeaders.map((header) => {
+      const normalized = normalize(header);
+      return headerMap[normalized] || normalized;
+    });
+
+    return lines.slice(1).map((line) => {
+      const values = line.split("\t").map((value) => value.trim());
+      const row = {};
+
+      headers.forEach((header, index) => {
+        if (header === "geneName") {
+          row[header] = values[index];
+        } else {
+          row[header] = parseFloat(values[index]);
+        }
+      });
+
+      return row;
+    });
+  };
 
   return (
     <div>
