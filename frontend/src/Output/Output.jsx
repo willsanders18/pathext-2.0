@@ -1,110 +1,106 @@
-import { useState } from "react";
 import BasicTable from "./BasicTable";
 import "./Output.css";
 
-function Output() {
-  const [data, setData] = useState([]);
+function Output({ data, setData, columns, setColumns, fileName, setFileName }) {
+  const prettifyHeader = (header) => {
+    let cleaned = header
+      .replace(/"/g, "")
+      .trim()
+      .toLowerCase();
 
-  const columns = [
-    {
-      accessorKey: "geneName",
-      header: "Gene Name",
-      cell: (info) => info.getValue(),
-    },
-    {
-      accessorKey: "degreeCentrality",
-      header: "Degree Centrality",
-      cell: (info) => Number(info.getValue()).toFixed(4),
-    },
-    {
-      accessorKey: "betweennessCentrality",
-      header: "Betweenness Centrality",
-      cell: (info) => Number(info.getValue()).toFixed(4),
-    },
-    {
-      accessorKey: "rippleCentrality",
-      header: "Ripple Centrality",
-      cell: (info) => Number(info.getValue()).toFixed(4),
-    },
-  ];
+    cleaned = cleaned
+      .replace("genename", "gene name")
+      .replace("degreecentrality", "degree centrality")
+      .replace("betweennesscentrality", "betweenness centrality")
+      .replace("closenesscentrality", "closeness centrality")
+      .replace("ripplecentrality", "ripple centrality");
+
+    cleaned = cleaned
+      .replace(/[_-]+/g, " ")
+      .replace(/\s+/g, " ");
+
+    return cleaned
+      .split(" ")
+      .map((word) =>
+        word ? word.charAt(0).toUpperCase() + word.slice(1) : word
+      )
+      .join(" ");
+  };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
+    const lowerName = file.name.toLowerCase();
+    if (!lowerName.endsWith(".tsv") && !lowerName.endsWith(".txt")) {
+      alert("Please upload a .tsv or .txt file.");
+      return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = (e) => {
       const text = e.target.result;
-      const parsedData = parseTSV(text);
-      console.log(parsedData);
+      const { parsedData, parsedColumns } = parseDelimitedFile(text);
+
       setData(parsedData);
+      setColumns(parsedColumns);
+      setFileName(file.name);
     };
 
     reader.readAsText(file);
   };
 
-  const parseTSV = (text) => {
+  const parseDelimitedFile = (text) => {
     const lines = text
       .trim()
       .split("\n")
       .map((line) => line.replace(/\r/g, ""));
 
-    if (lines.length < 2) return [];
+    if (lines.length < 2) {
+      return { parsedData: [], parsedColumns: [] };
+    }
 
-    const normalize = (str) => str.toLowerCase().trim();
+    const headers = lines[0].split("\t").map((header) => header.trim());
 
-    const headerMap = {
-      node: "geneName",
+    const parsedColumns = headers.map((header) => ({
+      accessorKey: header,
+      header: prettifyHeader(header),
+      cell: (info) => info.getValue(),
+    }));
 
-      "degree centrality": "degreeCentrality",
-      "betweenness centrality": "betweennessCentrality",
-
-      // KEY PART 👇
-      "closeness centrality": "rippleCentrality",
-      "ripple centrality": "rippleCentrality",
-
-      // fallback formats
-      genename: "geneName",
-      degreecentrality: "degreeCentrality",
-      betweennesscentrality: "betweennessCentrality",
-      closenesscentrality: "rippleCentrality",
-      ripplecentrality: "rippleCentrality",
-    };
-
-    const rawHeaders = lines[0].split("\t").map((h) => h.trim());
-
-    const headers = rawHeaders.map((header) => {
-      const normalized = normalize(header);
-      return headerMap[normalized] || normalized;
-    });
-
-    return lines.slice(1).map((line) => {
-      const values = line.split("\t").map((v) => v.trim());
+    const parsedData = lines.slice(1).map((line) => {
+      const values = line.split("\t").map((value) => value.trim());
       const row = {};
 
-      headers.forEach((header, i) => {
-        if (header === "geneName") {
-          row[header] = values[i];
-        } else {
-          row[header] = parseFloat(values[i]);
-        }
+      headers.forEach((header, index) => {
+        const rawValue = values[index] ?? "";
+        const numericValue = Number(rawValue);
+
+        row[header] =
+          rawValue !== "" && !Number.isNaN(numericValue)
+            ? numericValue
+            : rawValue;
       });
 
       return row;
     });
+
+    return { parsedData, parsedColumns };
   };
 
   return (
-    <div>
+    <div className="output-container">
       <h1>Output</h1>
 
-      <input type="file" accept=".tsv" onChange={handleFileUpload} />
+      <input type="file" accept=".tsv,.txt" onChange={handleFileUpload} />
+
+      {fileName && <p>Loaded file: {fileName}</p>}
 
       {data.length > 0 ? (
         <BasicTable data={data} columns={columns} />
       ) : (
-        <p>Please upload a TSV file to view results.</p>
+        <p>Please upload a file to view results.</p>
       )}
     </div>
   );

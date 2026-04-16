@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import logo from './assets/logo.png'
 import './App.css'
 
@@ -14,6 +15,7 @@ import Run from './Run/Run.jsx'
 import About from './About/About.jsx'
 import HowItWorks from './HowItWorks/HowItWorks.jsx'
 import Output from './Output/Output.jsx'
+import TopNet from './Output/TopNet.jsx'
 
 const Layout = () => {
   return (
@@ -34,15 +36,27 @@ const Layout = () => {
             <li>
               <NavLink to="/">HOME</NavLink>
             </li>
+
             <li>
               <NavLink to="/about">ABOUT</NavLink>
             </li>
+
             <li>
               <NavLink to="/run">RUN</NavLink>
             </li>
-            <li>
-              <NavLink to="/output">OUTPUT</NavLink>
+
+            <li className="dropdown">
+              <NavLink to="/output" className="dropbtn">OUTPUT</NavLink>
+              <ul className="dropdown-content">
+                <li>
+                  <NavLink to="/output">Table</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/topnet">TopNet Structure</NavLink>
+                </li>
+              </ul>
             </li>
+
             <li>
               <NavLink to="/howitworks">HOW IT WORKS</NavLink>
             </li>
@@ -77,6 +91,10 @@ const Home = () => {
 }
 
 function App() {
+  const [outputData, setOutputData] = useState([])
+  const [outputColumns, setOutputColumns] = useState([])
+  const [outputFileName, setOutputFileName] = useState('')
+
   return (
     <Router>
       <Routes>
@@ -85,7 +103,20 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/run" element={<Run />} />
           <Route path="/howitworks" element={<HowItWorks />} />
-          <Route path="/output" element={<Output />} />
+          <Route
+            path="/output"
+            element={
+              <Output
+                data={outputData}
+                setData={setOutputData}
+                columns={outputColumns}
+                setColumns={setOutputColumns}
+                fileName={outputFileName}
+                setFileName={setOutputFileName}
+              />
+            }
+          />
+          <Route path="/topnet" element={<TopNet />} />
         </Route>
       </Routes>
     </Router>

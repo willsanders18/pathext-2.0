@@ -33,3 +33,12 @@ tbody tr:hover {
 td:nth-child(n+2) {
   text-align: right;
 }
+
+.output-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centers horizontally */
+  justify-content: center;
+  text-align: center;
+  margin-top: 50px;      /* optional spacing from top */
+}
