@@ -3,7 +3,7 @@
 .env
 .env.local
 build.log
-.log
+*.log
 
 # --- Python (Backend) ---
 __pycache__/
