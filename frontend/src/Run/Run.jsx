@@ -1,37 +1,178 @@
 import './Run.css'
+import { useForm } from "react-hook-form"
+import React, { useState } from 'react'
 
 function Run() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const [file1Name, setFile1Name] = useState(null)
+  const [file2Name, setFile2Name] = useState(null)
+
+  const onSubmit = (data) => {
+    console.log("Form submitted:", data)
+  }
+
   return (
-    <div className="run-tab" id="run">
-      <form>
-        <label htmlFor="name">Name:</label>
-        <input type="text" id="name" name="name" />
+    <>
+      <div className="title-container">
+        <p className="title">Run PathExt</p>
+      </div>
 
-        <label htmlFor="email">Email:</label>
-        <input type="email" name="email" id="email" required />
-        <br />
+      <div className="run-tab" id="run">
+        <form className="run-form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="form-columns">
+            <div className="form-column">
+              <div className="form-group">
+                <label>*Name</label>
+                <input
+                  placeholder="Your name"
+                  {...register("name", { required: "Name is required" })}
+                />
+                {errors.name && <span className="error">{errors.name.message}</span>}
+              </div>
 
-        <label htmlFor="pertubation">Name of Pertubation:</label>
-        <input type="text" name="pertubation" id="pertubation" />
+              <div className="form-group">
+                <label>*Name of Perturbation</label>
+                <input
+                  placeholder="e.g. Drug treatment"
+                  {...register("perturbationName", { required: "Perturbation name is required" })}
+                />
+                {errors.perturbationName && <span className="error">{errors.perturbationName.message}</span>}
+              </div>
 
-        <label htmlFor="threshold">Percentile Threshold</label>
-        <input type="text" inputMode="numeric" name="threshold" id="threshold" />
-        <br />
+              <div className="form-group">
+                <label>*Name of Control Sample</label>
+                <input
+                  placeholder="e.g. DMSO"
+                  {...register("controlSampleName", { required: "Control sample name is required" })}
+                />
+                {errors.controlSampleName && <span className="error">{errors.controlSampleName.message}</span>}
+              </div>
 
-        <label htmlFor="control">Name of Control Sample:</label>
-        <input type="text" name="control" id="control" />
+              <div className="form-group">
+                <label>*Q-Score Cutoff</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  max="1"
+                  placeholder="0.1"
+                  {...register("qScoreCutoff", {
+                    required: "Q-score cutoff is required",
+                    min: { value: 0, message: "Must be ≥ 0" },
+                    max: { value: 1, message: "Must be ≤ 1" }
+                  })}
+                />
+                {errors.qScoreCutoff && <span className="error">{errors.qScoreCutoff.message}</span>}
+              </div>
 
-        <label htmlFor="q-score">Q-Score Cutoff</label>
-        <input type="text" inputMode="numeric" name="q-score" id="q-score" />
-        <br />
+              <div className="form-group">
+                <label>*Data File 1</label>
+                <label className="file-upload-label">
+                  <span>{file1Name ?? "Choose file…"}</span>
+                  <input
+                    type="file"
+                    accept=".tsv"
+                    style={{ display: "none" }}
+                    {...register("dataFile1", {
+                      required: "Data file 1 is required",
+                      validate: (files) => {
+                        if (!files[0]) return true
+                        return files[0].name.endsWith(".tsv") || "File must be a .tsv"
+                      }
+                    })}
+                    onChange={(e) => {
+                      setFile1Name(e.target.files[0]?.name ?? null)
+                      register("dataFile1").onChange(e)
+                    }}
+                  />
+                </label>
+                {errors.dataFile1 && <span className="error">{errors.dataFile1.message}</span>}
+              </div>
+            </div>
 
-        <label htmlFor="path-length">Path Length Threshold</label>
-        <input type="text" inputMode="numeric" name="path-length" id="path-length" />
-        <br />
+            <div className="form-column">
+              <div className="form-group">
+                <label>*Email</label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: { value: /^\S+@\S+\.\S+$/, message: "Invalid email" }
+                  })}
+                />
+                {errors.email && <span className="error">{errors.email.message}</span>}
+              </div>
 
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+              <div className="form-group">
+                <label>*Percentile Threshold</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="100"
+                  placeholder="e.g. 95"
+                  {...register("percentileThreshold", {
+                    required: "Percentile threshold is required",
+                    min: { value: 0, message: "Must be ≥ 0" },
+                    max: { value: 100, message: "Must be ≤ 100" }
+                  })}
+                />
+                {errors.percentileThreshold && <span className="error">{errors.percentileThreshold.message}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>*Path Length Threshold</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="1"
+                  placeholder="2"
+                  {...register("pathLengthThreshold", {
+                    required: "Path length threshold is required",
+                    min: { value: 1, message: "Must be ≥ 1" }
+                  })}
+                />
+                {errors.pathLengthThreshold && <span className="error">{errors.pathLengthThreshold.message}</span>}
+              </div>
+
+              <div className="form-group">
+                <label>*Data File 2</label>
+                <label className="file-upload-label">
+                  <span>{file2Name ?? "Choose file…"}</span>
+                  <input
+                    type="file"
+                    accept=".tsv"
+                    style={{ display: "none" }}
+                    {...register("dataFile2", {
+                      required: "Data file 2 is required",
+                      validate: (files) => {
+                        if (!files[0]) return true
+                        return files[0].name.endsWith(".tsv") || "File must be a .tsv"
+                      }
+                    })}
+                    onChange={(e) => {
+                      setFile2Name(e.target.files[0]?.name ?? null)
+                      register("dataFile2").onChange(e)
+                    }}
+                  />
+                </label>
+                {errors.dataFile2 && <span className="error">{errors.dataFile2.message}</span>}
+              </div>
+            </div>
+          </div>
+
+          <div className="submit-row">
+            <button type="submit" className="submit-btn">Submit</button>
+          </div>
+        </form>
+      </div>
+    </>
   )
 }
 

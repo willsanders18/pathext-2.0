@@ -9,6 +9,7 @@ import {
   NavLink,
   useNavigate,
   Outlet,
+  useLocation,
 } from 'react-router-dom'
 
 import Run from './Run/Run.jsx'
@@ -18,6 +19,8 @@ import Output from './Output/Output.jsx'
 import TopNet from './Output/TopNet.jsx'
 
 const Layout = () => {
+  const location = useLocation()
+
   return (
     <>
       <header className="main-header">
@@ -46,7 +49,18 @@ const Layout = () => {
             </li>
 
             <li className="dropdown">
-              <NavLink to="/output" className="dropbtn">OUTPUT</NavLink>
+              <NavLink
+                to="/output"
+                className={
+                  location.pathname.startsWith('/output') ||
+                  location.pathname.startsWith('/topnet')
+                    ? 'dropbtn active'
+                    : 'dropbtn'
+                }
+              >
+                OUTPUT
+              </NavLink>
+
               <ul className="dropdown-content">
                 <li>
                   <NavLink to="/output">Table</NavLink>
@@ -95,6 +109,9 @@ function App() {
   const [outputColumns, setOutputColumns] = useState([])
   const [outputFileName, setOutputFileName] = useState('')
 
+  const [topNetText, setTopNetText] = useState('')
+  const [topNetFileName, setTopNetFileName] = useState('')
+
   return (
     <Router>
       <Routes>
@@ -116,7 +133,17 @@ function App() {
               />
             }
           />
-          <Route path="/topnet" element={<TopNet />} />
+          <Route
+            path="/topnet"
+            element={
+              <TopNet
+                uploadedText={topNetText}
+                setUploadedText={setTopNetText}
+                uploadedFileName={topNetFileName}
+                setUploadedFileName={setTopNetFileName}
+              />
+            }
+          />
         </Route>
       </Routes>
     </Router>
