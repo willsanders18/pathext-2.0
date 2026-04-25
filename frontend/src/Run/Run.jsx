@@ -1,6 +1,7 @@
 import './Run.css'
 import { useForm } from "react-hook-form"
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Run() {
   const {
@@ -11,10 +12,11 @@ function Run() {
 
   const [file1Name, setFile1Name] = useState(null)
   const [file2Name, setFile2Name] = useState(null)
-
+  const navigate = useNavigate()
   const onSubmit = (data) => {
-    console.log("Form submitted:", data)
-  }
+  console.log("Form submitted:", data)
+  navigate('/confirmation')
+}
 
   return (
     <>

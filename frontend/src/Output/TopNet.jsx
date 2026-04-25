@@ -354,6 +354,11 @@ export default function TopNet({
               : "Upload a network file to begin"}
             {err ? ` • ${err}` : ""}
           </div>
+          <div className="topnet-note">
+  <strong>Troubleshooting note:</strong> Upload the node weights file, not the
+  centralities file. The TopNet visualization uses node-to-node weights to show
+  which paths are most active.
+</div>
         </div>
 
         <div className="output-actions">

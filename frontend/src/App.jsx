@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import logo from './assets/logo.png'
 import './App.css'
+import Confirmation from './Run/Confirmation.jsx'
 
 import {
   BrowserRouter as Router,
@@ -45,8 +46,18 @@ const Layout = () => {
             </li>
 
             <li>
-              <NavLink to="/run">RUN</NavLink>
-            </li>
+  <NavLink
+    to="/run"
+    className={
+      location.pathname.startsWith('/run') ||
+      location.pathname.startsWith('/confirmation')
+        ? 'active'
+        : ''
+    }
+  >
+    RUN
+  </NavLink>
+</li>
 
             <li className="dropdown">
               <NavLink
@@ -89,7 +100,7 @@ const Home = () => {
   return (
     <>
       <div className="description">
-        <p className="sentence">The smartest way to manage your data</p>
+        <p className="sentence">Analyze gene networks, not just individual genes</p>
       </div>
 
       <div className="btn-container">
@@ -119,6 +130,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/run" element={<Run />} />
+          <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/howitworks" element={<HowItWorks />} />
           <Route
             path="/output"

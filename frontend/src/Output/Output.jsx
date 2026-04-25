@@ -2,6 +2,13 @@ import BasicTable from "./BasicTable";
 import "./Output.css";
 
 function Output({ data, setData, columns, setColumns, fileName, setFileName }) {
+  const isNumeric = (value) => {
+    if (value === null || value === undefined) return false;
+    const trimmed = String(value).trim();
+    if (trimmed === "") return false;
+    return !Number.isNaN(Number(trimmed));
+  };
+
   const prettifyHeader = (header) => {
     let cleaned = header
       .replace(/"/g, "")
@@ -13,7 +20,8 @@ function Output({ data, setData, columns, setColumns, fileName, setFileName }) {
       .replace("degreecentrality", "degree centrality")
       .replace("betweennesscentrality", "betweenness centrality")
       .replace("closenesscentrality", "closeness centrality")
-      .replace("ripplecentrality", "ripple centrality");
+      .replace("ripplecentrality", "ripple centrality")
+      .replace("nodeweight", "node weight");
 
     cleaned = cleaned
       .replace(/[_-]+/g, " ")
@@ -25,6 +33,81 @@ function Output({ data, setData, columns, setColumns, fileName, setFileName }) {
         word ? word.charAt(0).toUpperCase() + word.slice(1) : word
       )
       .join(" ");
+  };
+
+  const detectDelimiter = (line) => {
+    if (line.includes("\t")) return "\t";
+    if (line.includes(",")) return ",";
+    return /\s+/;
+  };
+
+  const hasHeaderRow = (rows) => {
+    if (rows.length < 2) return false;
+
+    const firstRow = rows[0];
+    const secondRow = rows[1];
+
+    // If the first row contains any numeric data, it is probably not a header.
+    if (firstRow.some((cell) => isNumeric(cell))) {
+      return false;
+    }
+
+    // If first row is all text and second row has at least one number,
+    // it is probably a header row.
+    if (secondRow.some((cell) => isNumeric(cell))) {
+      return true;
+    }
+
+    // Fallback: if the first row looks like descriptive labels, treat as header.
+    const headerWords = [
+      "gene",
+      "node",
+      "degree",
+      "centrality",
+      "betweenness",
+      "closeness",
+      "ripple",
+      "weight",
+      "score",
+      "source",
+      "target",
+    ];
+
+    return firstRow.some((cell) =>
+      headerWords.some((word) => cell.toLowerCase().includes(word))
+    );
+  };
+
+  const generateHeaders = (rows) => {
+    const columnCount = rows[0]?.length ?? 0;
+    const stringCounts = Array(columnCount).fill(0);
+    const numericCounts = Array(columnCount).fill(0);
+
+    rows.forEach((row) => {
+      row.forEach((value, index) => {
+        if (isNumeric(value)) {
+          numericCounts[index] += 1;
+        } else {
+          stringCounts[index] += 1;
+        }
+      });
+    });
+
+    let nodeCount = 1;
+    let weightCount = 1;
+
+    return Array.from({ length: columnCount }, (_, index) => {
+      if (numericCounts[index] > stringCounts[index]) {
+        const label =
+          weightCount === 1 ? "Node Weight" : `Node Weight ${weightCount}`;
+        weightCount += 1;
+        return label;
+      }
+
+      const label = `Node ${nodeCount}`;
+      nodeCount += 1;
+      return label;
+    });
   };
 
   const handleFileUpload = (event) => {
@@ -55,13 +138,28 @@ function Output({ data, setData, columns, setColumns, fileName, setFileName }) {
     const lines = text
       .trim()
       .split("\n")
-      .map((line) => line.replace(/\r/g, ""));
+      .map((line) => line.replace(/\r/g, ""))
+      .filter((line) => line.trim() !== "");
 
-    if (lines.length < 2) {
+    if (lines.length === 0) {
       return { parsedData: [], parsedColumns: [] };
     }
 
-    const headers = lines[0].split("\t").map((header) => header.trim());
+    const delimiter = detectDelimiter(lines[0]);
+
+    const rows = lines.map((line) =>
+      line
+        .split(delimiter)
+        .map((value) => value.replace(/"/g, "").trim())
+    );
+
+    const fileHasHeaders = hasHeaderRow(rows);
+
+    const headers = fileHasHeaders
+      ? rows[0]
+      : generateHeaders(rows);
+
+    const dataRows = fileHasHeaders ? rows.slice(1) : rows;
 
     const parsedColumns = headers.map((header) => ({
       accessorKey: header,
@@ -69,18 +167,15 @@ function Output({ data, setData, columns, setColumns, fileName, setFileName }) {
       cell: (info) => info.getValue(),
     }));
 
-    const parsedData = lines.slice(1).map((line) => {
-      const values = line.split("\t").map((value) => value.trim());
+    const parsedData = dataRows.map((rowValues) => {
       const row = {};
 
       headers.forEach((header, index) => {
-        const rawValue = values[index] ?? "";
-        const numericValue = Number(rawValue);
+        const rawValue = rowValues[index] ?? "";
 
-        row[header] =
-          rawValue !== "" && !Number.isNaN(numericValue)
-            ? numericValue
-            : rawValue;
+        row[header] = isNumeric(rawValue)
+          ? Number(rawValue)
+          : rawValue;
       });
 
       return row;

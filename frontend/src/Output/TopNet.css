@@ -85,3 +85,11 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
   white-space: nowrap;
 }
+
+.topnet-note {
+  margin-top: 8px;
+  max-width: 650px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+}

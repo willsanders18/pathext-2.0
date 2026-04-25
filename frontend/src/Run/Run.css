@@ -114,3 +114,26 @@ html {
   font-size: 40px;
   font-weight: bold;
 }
+
+.confirmation-page {
+  max-width: 800px;
+  margin: 8rem auto;
+  padding: 3rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.confirmation-page h1 {
+  font-size: 42px;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-page p {
+  font-size: 20px;
+  margin-bottom: 1rem;
+}
+
+.confirmation-small {
+  margin-top: 2rem;
+  color: #6b7280;
+}
