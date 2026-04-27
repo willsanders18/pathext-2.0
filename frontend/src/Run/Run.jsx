@@ -1,7 +1,7 @@
-import logo from '../assets/logo.png'
 import './Run.css'
 import { useForm } from "react-hook-form"
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Run() {
   const {
@@ -12,40 +12,22 @@ function Run() {
 
   const [file1Name, setFile1Name] = useState(null)
   const [file2Name, setFile2Name] = useState(null)
-
+  const navigate = useNavigate()
   const onSubmit = (data) => {
-    console.log("Form submitted:", data)
-  }
+  console.log("Form submitted:", data)
+  navigate('/confirmation')
+}
 
   return (
     <>
-      <header className="main-header">
-        <div className="logo">
-          <img src={logo} alt="PathExt 2.0" className="logo-img" width="150" height="75" />
-        </div>
-        <nav className="navbar">
-          <ul>
-            <li><a href="/">HOME</a></li>
-            <li><a href="/about">ABOUT</a></li>
-            <li><a href="/run">RUN</a></li>
-            <li><a href="/howitworks">HOW IT WORKS</a></li>
-          </ul>
-        </nav>
-      </header>
-
       <div className="title-container">
-        <p className='title'>Run PathExt</p>
+        <p className="title">Run PathExt</p>
       </div>
 
       <div className="run-tab" id="run">
         <form className="run-form" onSubmit={handleSubmit(onSubmit)}>
-
           <div className="form-columns">
-
-            {/* Left Column */}
             <div className="form-column">
-
-              {/* Name */}
               <div className="form-group">
                 <label>*Name</label>
                 <input
@@ -55,7 +37,6 @@ function Run() {
                 {errors.name && <span className="error">{errors.name.message}</span>}
               </div>
 
-              {/* Name of Perturbation */}
               <div className="form-group">
                 <label>*Name of Perturbation</label>
                 <input
@@ -65,7 +46,6 @@ function Run() {
                 {errors.perturbationName && <span className="error">{errors.perturbationName.message}</span>}
               </div>
 
-              {/* Name of Control Sample */}
               <div className="form-group">
                 <label>*Name of Control Sample</label>
                 <input
@@ -75,7 +55,6 @@ function Run() {
                 {errors.controlSampleName && <span className="error">{errors.controlSampleName.message}</span>}
               </div>
 
-              {/* Q-Score Cutoff */}
               <div className="form-group">
                 <label>*Q-Score Cutoff</label>
                 <input
@@ -93,7 +72,6 @@ function Run() {
                 {errors.qScoreCutoff && <span className="error">{errors.qScoreCutoff.message}</span>}
               </div>
 
-              {/* Data File 1 */}
               <div className="form-group">
                 <label>*Data File 1</label>
                 <label className="file-upload-label">
@@ -117,13 +95,9 @@ function Run() {
                 </label>
                 {errors.dataFile1 && <span className="error">{errors.dataFile1.message}</span>}
               </div>
-
             </div>
 
-            {/* Right Column */}
             <div className="form-column">
-
-              {/* Email */}
               <div className="form-group">
                 <label>*Email</label>
                 <input
@@ -137,7 +111,6 @@ function Run() {
                 {errors.email && <span className="error">{errors.email.message}</span>}
               </div>
 
-              {/* Percentile Threshold */}
               <div className="form-group">
                 <label>*Percentile Threshold</label>
                 <input
@@ -155,7 +128,6 @@ function Run() {
                 {errors.percentileThreshold && <span className="error">{errors.percentileThreshold.message}</span>}
               </div>
 
-              {/* Path Length Threshold */}
               <div className="form-group">
                 <label>*Path Length Threshold</label>
                 <input
@@ -171,7 +143,6 @@ function Run() {
                 {errors.pathLengthThreshold && <span className="error">{errors.pathLengthThreshold.message}</span>}
               </div>
 
-              {/* Data File 2 */}
               <div className="form-group">
                 <label>*Data File 2</label>
                 <label className="file-upload-label">
@@ -195,15 +166,12 @@ function Run() {
                 </label>
                 {errors.dataFile2 && <span className="error">{errors.dataFile2.message}</span>}
               </div>
-
             </div>
           </div>
 
-          {/* Submit — centered below both columns */}
           <div className="submit-row">
             <button type="submit" className="submit-btn">Submit</button>
           </div>
-
         </form>
       </div>
     </>

@@ -10,90 +10,12 @@ html {
   box-sizing: border-box;
 }
 
-.main-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: white;
-}
-
-.logo-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-.navbar ul {
-  display: flex;
-  list-style: none;
-  gap: 20px;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: var(--accent-shadow);
-  font-family: sans-serif;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-.navbar a:hover {
-  color: var(--accent-teal);
-}
-
-.description {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 12rem;
-  padding-bottom: 5rem;
-}
-
-.sentence {
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.btn-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hiw-btn {
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: bold;
-  font-size: 1rem;
-  letter-spacing: 1px;
-  text-decoration: none;
-  background-color: var(--bg-main);
-  color: var(--accent-teal);
-  border: 1px solid var(--accent-teal);
-  box-shadow: 4px 4px 0px var(--accent-shadow);
-  padding: 12px 24px;
-  border-radius: 6px;
-  display: inline-block;
-  transition: all 0.1s ease-in-out;
-}
-
-.hiw-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 5px 5px 0px var(--accent-shadow);
-}
-
-.hiw-btn:active {
-  transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0px var(--accent-shadow);
-}
-
 .run-tab {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 5rem;
-  padding-bottom: 10rem;
+  padding-top: 2rem;
+  padding-bottom: 6rem;
 }
 
 .run-form {
@@ -181,16 +103,37 @@ html {
   background: #1a252f;
 }
 
-/* Title Styling */
-
 .title-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10rem;
+  padding-top: 4rem;
 }
 
 .title {
   font-size: 40px;
   font-weight: bold;
+}
+
+.confirmation-page {
+  max-width: 800px;
+  margin: 8rem auto;
+  padding: 3rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.confirmation-page h1 {
+  font-size: 42px;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-page p {
+  font-size: 20px;
+  margin-bottom: 1rem;
+}
+
+.confirmation-small {
+  margin-top: 2rem;
+  color: #6b7280;
 }
