@@ -1,0 +1,95 @@
+.output-page {
+  padding: 16px;
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.output-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.output-subtitle {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.output-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.run-pill {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  color: #111827;
+  font-size: 14px;
+}
+
+.run-input {
+  border: none;
+  outline: none;
+  width: 160px;
+  font-size: 14px;
+}
+
+.graph-container {
+  width: 100%;
+  height: 75vh;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+}
+
+.graph-wrap {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 50;
+  pointer-events: none;
+  background: rgba(17, 24, 39, 0.92);
+  color: white;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.25;
+  max-width: 220px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  white-space: nowrap;
+}
+
+.topnet-note {
+  margin-top: 8px;
+  max-width: 650px;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.4;
+}
