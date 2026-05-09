@@ -12,11 +12,47 @@ function Run() {
 
   const [file1Name, setFile1Name] = useState(null)
   const [file2Name, setFile2Name] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [apiError, setApiError] = useState(null)
   const navigate = useNavigate()
-  const onSubmit = (data) => {
-  console.log("Form submitted:", data)
-  navigate('/confirmation')
-}
+
+  const onSubmit = async (data) => {
+    setLoading(true)
+    setApiError(null)
+
+    const formData = new FormData()
+    formData.append('email', data.email)
+    formData.append('mode', data.mode)
+    formData.append('perturbation_sample', data.perturbationName)
+    formData.append('percentile_threshold', data.percentileThreshold)
+    formData.append('path_length_threshold', data.pathLengthThreshold)
+    formData.append('microarray_file', data.dataFile1[0])
+    formData.append('network_file', data.dataFile2[0])
+
+    if (data.mode !== 'ha') {
+      formData.append('control_sample', data.controlSampleName)
+      formData.append('q_score_cutoff', data.qScoreCutoff)
+      formData.append('num_randomizations', data.numRandomizations)
+    }
+
+    try {
+      const res = await fetch('/api/run-pathext', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!res.ok) {
+        const errorData = await res.json()
+        throw new Error(errorData.detail || 'Something went wrong. Please try again.')
+      }
+
+      navigate('/confirmation')
+    } catch (err) {
+      setApiError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -26,6 +62,24 @@ function Run() {
 
       <div className="run-tab" id="run">
         <form className="run-form" onSubmit={handleSubmit(onSubmit)}>
+          {apiError && (
+            <div className="error-banner">
+              {apiError}
+            </div>
+          )}
+
+          {/* Mode selector spans full width */}
+          <div className="form-group">
+            <label>*Mode</label>
+            <select {...register("mode", { required: "Mode is required" })}>
+              <option value="">Select a mode...</option>
+              <option value="activated">Activated Response</option>
+              <option value="repressed">Repressed Response</option>
+              <option value="ha">Highest Activity (HA)</option>
+            </select>
+            {errors.mode && <span className="error">{errors.mode.message}</span>}
+          </div>
+
           <div className="form-columns">
             <div className="form-column">
               <div className="form-group">
@@ -38,10 +92,10 @@ function Run() {
               </div>
 
               <div className="form-group">
-                <label>*Name of Perturbation</label>
+                <label>*Name of Perturbation Sample</label>
                 <input
-                  placeholder="e.g. Drug treatment"
-                  {...register("perturbationName", { required: "Perturbation name is required" })}
+                  placeholder="e.g. GSM1829740"
+                  {...register("perturbationName", { required: "Perturbation sample is required" })}
                 />
                 {errors.perturbationName && <span className="error">{errors.perturbationName.message}</span>}
               </div>
@@ -49,7 +103,7 @@ function Run() {
               <div className="form-group">
                 <label>*Name of Control Sample</label>
                 <input
-                  placeholder="e.g. DMSO"
+                  placeholder="e.g. GSM1829696"
                   {...register("controlSampleName", { required: "Control sample name is required" })}
                 />
                 {errors.controlSampleName && <span className="error">{errors.controlSampleName.message}</span>}
@@ -59,10 +113,10 @@ function Run() {
                 <label>*Q-Score Cutoff</label>
                 <input
                   type="number"
-                  step="0.1"
+                  step="0.01"
                   min="0"
                   max="1"
-                  placeholder="0.1"
+                  placeholder="0.05"
                   {...register("qScoreCutoff", {
                     required: "Q-score cutoff is required",
                     min: { value: 0, message: "Must be ≥ 0" },
@@ -73,19 +127,15 @@ function Run() {
               </div>
 
               <div className="form-group">
-                <label>*Data File 1</label>
+                <label>*Microarray File</label>
                 <label className="file-upload-label">
                   <span>{file1Name ?? "Choose file…"}</span>
                   <input
                     type="file"
-                    accept=".tsv"
+                    accept=".tsv,.txt"
                     style={{ display: "none" }}
                     {...register("dataFile1", {
-                      required: "Data file 1 is required",
-                      validate: (files) => {
-                        if (!files[0]) return true
-                        return files[0].name.endsWith(".tsv") || "File must be a .tsv"
-                      }
+                      required: "Microarray file is required",
                     })}
                     onChange={(e) => {
                       setFile1Name(e.target.files[0]?.name ?? null)
@@ -117,12 +167,12 @@ function Run() {
                   type="number"
                   step="0.01"
                   min="0"
-                  max="100"
-                  placeholder="e.g. 95"
+                  max="1"
+                  placeholder="0.5"
                   {...register("percentileThreshold", {
                     required: "Percentile threshold is required",
                     min: { value: 0, message: "Must be ≥ 0" },
-                    max: { value: 100, message: "Must be ≤ 100" }
+                    max: { value: 1, message: "Must be ≤ 1" }
                   })}
                 />
                 {errors.percentileThreshold && <span className="error">{errors.percentileThreshold.message}</span>}
@@ -144,19 +194,15 @@ function Run() {
               </div>
 
               <div className="form-group">
-                <label>*Data File 2</label>
+                <label>*Network File</label>
                 <label className="file-upload-label">
                   <span>{file2Name ?? "Choose file…"}</span>
                   <input
                     type="file"
-                    accept=".tsv"
+                    accept=".tsv,.txt"
                     style={{ display: "none" }}
                     {...register("dataFile2", {
-                      required: "Data file 2 is required",
-                      validate: (files) => {
-                        if (!files[0]) return true
-                        return files[0].name.endsWith(".tsv") || "File must be a .tsv"
-                      }
+                      required: "Network file is required",
                     })}
                     onChange={(e) => {
                       setFile2Name(e.target.files[0]?.name ?? null)
@@ -166,11 +212,28 @@ function Run() {
                 </label>
                 {errors.dataFile2 && <span className="error">{errors.dataFile2.message}</span>}
               </div>
+
+              <div className="form-group">
+                <label>*Number of Randomizations</label>
+                <input
+                  type="number"
+                  step="1"
+                  min="1"
+                  placeholder="100"
+                  {...register("numRandomizations", {
+                    required: "Number of randomizations is required",
+                    min: { value: 1, message: "Must be ≥ 1" }
+                  })}
+                />
+                {errors.numRandomizations && <span className="error">{errors.numRandomizations.message}</span>}
+              </div>
             </div>
           </div>
 
           <div className="submit-row">
-            <button type="submit" className="submit-btn">Submit</button>
+            <button type="submit" className="submit-btn" disabled={loading}>
+              {loading ? 'Submitting...' : 'Submit'}
+            </button>
           </div>
         </form>
       </div>
