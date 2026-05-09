@@ -54,7 +54,7 @@ async def send_results_email(email: str, zip_path: Path, fm: FastMail):
     msg = MessageSchema(
         subject='PathExt – Results Ready',
         recipients=[email],
-        body='<h2>Your PathExt results are attached.</h2>',
+        body='<h2>Your PathExt results are attached.</h2><p>Go to pathext.com/output to visualize your results</p>',
         subtype=MessageType.html,
         attachments=[{'file': str(zip_path), 'headers': {
             'Content-Disposition': 'attachment; filename=results.zip'}}],

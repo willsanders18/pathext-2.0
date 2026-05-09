@@ -31,7 +31,7 @@ COPY legacy/ .
 RUN dos2unix *.sh && chmod +x *.sh
 RUN python3.6 -m venv venv && \
     venv/bin/pip install --upgrade pip && \
-    venv/bin/pip install pandas==0.25.3 networkx==1.11 numpy==1.17.4
+    venv/bin/pip install pandas==0.25.3 networkx==1.11 numpy==1.17.4 scipy statsmodels
 
 # Set up FastAPI with Python 3.10
 WORKDIR /app
