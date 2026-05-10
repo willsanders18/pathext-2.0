@@ -61,6 +61,16 @@ html {
   width: 100%;
 }
 
+.form-group select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  background: white;
+  cursor: pointer;
+}
+
 .file-upload-label {
   display: inline-block;
   width: 100%;
@@ -136,4 +146,14 @@ html {
 .confirmation-small {
   margin-top: 2rem;
   color: #6b7280;
+}
+
+.error-banner {
+  background-color: #fde8e8;
+  color: #9b1c1c;
+  border: 1px solid #f5c6c6;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
 }
