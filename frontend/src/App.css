@@ -2,6 +2,7 @@
 
 html {
   font-family: 'Courier New', Courier, monospace;
+  scroll-behavior: smooth;
 }
 
 /* Reset basic spacing */
@@ -11,12 +12,17 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  background-color: white;
+}
+
+/* Header */
 .main-header {
   display: flex;
-  justify-content: space-between; /* Pushes Logo left, Nav right */
-  align-items: center; /* Vertically centers items */
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 2rem;
-  background-color: white; /* Match page bg */
+  background-color: white;
 }
 
 .logo-img {
@@ -25,36 +31,40 @@ html {
   display: block;
 }
 
+/* Navbar */
 .navbar ul {
-  display: flex; /* Makes list items horizontal */
-  list-style: none; /* Removes bullet points */
-  gap: 20px; /* Space between links */
+  display: flex;
+  list-style: none;
+  gap: 20px;
 }
 
 .navbar a {
   text-decoration: none;
-  color: var(--accent-shadow); 
-  font-family: sans-serif;  
-  
+  color: var(--accent-shadow);
+  font-family: sans-serif;
   padding: 10px 20px;
-  border-radius: 5px;               
-  
+  padding-bottom: 3px;
+  border-radius: 5px;
   transition: all 0.3s ease;
 }
 
 .navbar a:hover {
-  color: var(--accent-teal);                     
-  
-}
-
-.navbar a {
-  text-decoration: none;
-  padding-bottom: 3px;
+  color: var(--accent-teal);
 }
 
 .navbar a.active {
   font-weight: bold;
   border-bottom: 2px solid #2b4b8c;
+}
+
+.navbar li {
+  display: flex;
+  align-items: center;
+}
+
+/* Landing page */
+.landing-page-top {
+  background-color: white;
 }
 
 .description {
@@ -76,28 +86,25 @@ html {
   align-items: center;
 }
 
+/* How It Works button */
 .hiw-btn {
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
   font-size: 1rem;
   letter-spacing: 1px;
   text-decoration: none;
-  
-  /* Colors */
-  background-color: var(--bg-main);   /* White Background */
-  color: var(--accent-teal);          /* Teal Text */
-  border: 1px solid var(--accent-teal); /* Thin Teal Border */
-  
-  /* The "3D" Hard Shadow */
-  /* Format: horizontal-offset vertical-offset blur-radius color */
-  box-shadow: 4px 4px 0px var(--accent-shadow); 
-  
-  /* Spacing */
+
+  background-color: var(--bg-main);
+  color: var(--accent-teal);
+  border: 1px solid var(--accent-teal);
+
+  box-shadow: 4px 4px 0px var(--accent-shadow);
+
   padding: 12px 24px;
-  border-radius: 6px; /* Slightly rounded corners */
+  border-radius: 6px;
   display: inline-block;
-  
-  /* Smooth animation for the click effect */
+  cursor: pointer;
+
   transition: all 0.1s ease-in-out;
 }
 
@@ -107,17 +114,69 @@ html {
 }
 
 .hiw-btn:active {
-  transform: translate(3px, 3px); /* Moves button down/right */
-  box-shadow: 1px 1px 0px var(--accent-shadow); /* Shrinks shadow */
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px var(--accent-shadow);
 }
 
+/*
+  This blank space is now permanent.
+  It is attached to the bottom of the landing page.
+  Increase this height if you still see the blue box too early.
+*/
+.landing-extension-space {
+  height: 100vh;
+  width: 100%;
+  background-color: white;
+}
 
+/* How It Works section */
+.how-it-works-section {
+  background: #f4f8ff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  width: 90vw;
+  max-width: 900px;
+  margin: 0 auto 5rem auto;
+  padding: 3rem 2rem;
+  position: relative;
+  z-index: 2;
+  scroll-margin-top: 1rem;
+}
+
+/* How It Works content */
 .hiw-tab {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10rem;
-  padding-bottom: 10rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.hiw-tab h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+}
+
+.hiw-tab section {
+  margin-bottom: 2rem;
+}
+
+.hiw-tab h2 {
+  margin-bottom: 0.75rem;
+  color: var(--accent-shadow);
+}
+
+.hiw-tab p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.hiw-tab ul,
+.hiw-tab ol {
+  padding-left: 2rem;
+  line-height: 1.6;
+}
+
+.hiw-tab li {
+  margin-bottom: 0.75rem;
 }
 
 /* OUTPUT dropdown */
@@ -132,9 +191,10 @@ html {
   font-family: sans-serif;
   color: var(--accent-shadow);
   display: inline-block;
+  text-decoration: none;
 }
 
-/* FORCE hidden by default */
+/* Force dropdown hidden by default */
 .navbar .dropdown-content {
   display: none !important;
   position: absolute;
@@ -150,7 +210,7 @@ html {
   z-index: 1000;
 }
 
-/* Only show when hovering over OUTPUT */
+/* Show dropdown on hover */
 .navbar .dropdown:hover > .dropdown-content {
   display: block !important;
 }
@@ -171,16 +231,44 @@ html {
   background-color: #f4f4f4;
 }
 
-/* Make dropdown button match NavLink exactly */
-.dropbtn {
-  display: inline-block;
-  text-decoration: none;
-  color: var(--accent-shadow);
-  font-family: sans-serif;
-  padding: 10px 20px;
+/* Back to top button */
+.back-to-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+
+  background-color: var(--bg-main);
+  color: var(--accent-teal);
+  border: 1px solid var(--accent-teal);
+
+  box-shadow: 4px 4px 0px var(--accent-shadow);
+
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+
+  transition: all 0.1s ease-in-out;
 }
 
-.navbar li {
-  display: flex;
-  align-items: center;
+.back-to-top-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px var(--accent-shadow);
 }
+
+.back-to-top-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0px var(--accent-shadow);
+}
+
+/* Optional divider class */
+.divider {
+  width: 100%;
+  height: 6rem;
+  background: transparent;
+};
