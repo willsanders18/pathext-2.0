@@ -113,7 +113,7 @@ const Layout = () => {
             </li>
 
             <li>
-              <NavLink to="/howitworks">HOW IT WORKS</NavLink>
+              {/* <NavLink to="/howitworks">HOW IT WORKS</NavLink> */}
             </li>
           </ul>
         </nav>
